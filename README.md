@@ -20,7 +20,7 @@ Kernel space is the area of system memory reserved for the kernel, it is where t
 
 A device driver is a kernel module that forms a software interface to an input/output (I/O) device. While kernel drivers are an integral part of the kernel, kernel modules offer a more flexible approach being capable to be loaded and unloaded to extend the kernel functionalities.
 
-<sub>This diagram shows the main components we have come through and the interactions between them in order to ensure stability and security of the our system</sub>  
+<sub>This diagram shows the main components we came across and the interactions between them to ensure stability and security of the our system</sub>  
 
 ![diagram](https://www.form3.tech/_prismic-media/e28ac8c54b950dd43cc9a62f49e76452445afdd054a5cab1a0e76b17b319ff89.png?auto=compress,format)  
 
