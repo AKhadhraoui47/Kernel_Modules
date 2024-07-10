@@ -60,12 +60,23 @@ When removing your module an exit function is executed to free memory previously
 
 + **Licensing**  
 
-For determining later usage scope of the module by any other user a license should be attributed to the module. THis can be achieved through the **MODULE_LICANSE** macro.  
+For determining later usage scope of the module by any other user a license should be attributed to the module. THis can be achieved through the **MODULE_LICENSE** macro.  
 
-To get a deeper understanding of these concepts and tools let's dive into our (Hello World module)[Hello_World/Hello_mod.c] and clzrify its composition.  
+To get a deeper understanding of these concepts and tools let's dive into our [Hello World module](Hello_World/Hello_mod.c) and clarify its composition.  
 
 ### Hello World :wave:  
 
+Let's breakthrough our [Hello World module](Hello_World/Hello_mod.c) and explain its elements one by one.  
+
+```
+#include <linux/init.h>  
+#include <linux/module.h>   
+#include <linux/moduleparam.h>  
+#include <linux/kernel.h>  
+#include <linux/printk.h>  
+```  
+
+These are the **headers** that we will  
 
 
 
