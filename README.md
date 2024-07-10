@@ -26,7 +26,26 @@ A device driver is a kernel module that forms a software interface to an input/o
 
 <sub>**Source**: [Form3-Tech Linux Fundamentals](https://www.form3.tech/blog/engineering/linux-fundamentals-user-kernel-space)</sub>  
 
-## Our First Module :monocle_face:
+## Our First Module :monocle_face:  
+
+As **Kernel Modules** run in the kernel space, the core of the operating system, writing their code is a delicate task that must ensure seamless interaction with the **Kernel**. This interaction is facilitated by ***Linux headers***, which are files containing necessary declarations, macros, constants, and function prototypes for developing both kernel-level and user-space applications. These ***Headers*** are essential for ensuring that code can properly interact with the Linux kernel and its various subsystems.  
+
+> **Linux kernel headers** are essential files for developing and compiling kernel modules. These headers are part of the kernel but are shipped separately, so you need to install the **package version** that matches your target **kernel version**.   
+
+<sub>As i am working on Ubuntu System</sub>
+
+```console  
+ak47@ak47:~$ sudo apt-install linux-headers-$(uname -r)  
+```   
+
+After installing the **Linux Headers** package you should find them under **/usr/src/linux-headers-$(target version)/include/** directory. Let's have a look at some well-known headers:  
+
++ **<linux/fs.h>** File system structures and functions.   
++ **<linux/printk.h>** Kernel messages logging.
++ **<linux/module.h>** Module-related macros and functions.   
+
+### Module Source Code Structure
+
 
  
 
