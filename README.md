@@ -225,7 +225,14 @@ ak47@ak47:~$ dmesg | tail -1
 And now that we got familiar with modules development let's get to the real deal 
 
 ### :rocket:
- 
+
+
+
+## References :label:
+
+[The Linux Kernel Module Programming Guide](https://sysprog21.github.io/lkmpg/)  <sub>Peter Jay Salzman, Michael Burian, Ori Pomerantz, Bob Mottram, Jim Huang</sub>  
+  
+[LINUX DEVICE DRIVERS 3rd Edition](https://www.google.com/url?sa=t&source=web&rct=j&opi=89978449&url=https://lwn.net/Kernel/LDD3/&ved=2ahUKEwjJ4vzx3JyHAxWjT6QEHZg9BcQQFnoECBQQAQ&usg=AOvVaw01bM6Zgwp5iRGPE8AVMxj-) <sub>Jonathan Corbet, Alessandro Rubini, and Greg Kroah-Hartman </sub>
 
 
 
