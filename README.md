@@ -94,7 +94,7 @@ module_param_array(argv_k, short, &argc_k, S_IRUSR | S_IWUSR | S_IRGRP | S_IWGRP
 MODULE_PARM_DESC(argv_k, "My Array of short Integers"); 
 ```  
 
-This section of the code is responsible for setting the command line parameters, that we're familiar with as **argv** and **argc** that's i named them **argc_k** and **argv_k** as a reference to the kernel. After declaring our variables we should set the **argv_k** as a module parameter via **module_param_array()** macro provided by <linux/moduleparam.h>. **MODULE_PARM_DESC()** used to provide a description of the parameter variable.  
+This section of the code is responsible for setting the command line parameters, that we're familiar with as **argv** and **argc** that's i named them **argc_k** and **argv_k** as a reference to the kernel. After declaring our variables we should set the **argv_k** as a module parameter via **module_param_array()** macro provided by **<linux/moduleparam.h>**. **MODULE_PARM_DESC()** used to provide a description of the parameter variable.  
 
 > module_param_array( **array_pointer**, **type**, **&countCmdParams**, **permissions**) 
 
