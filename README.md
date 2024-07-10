@@ -75,9 +75,9 @@ Let's breakthrough our [Hello World module](Hello_World/Hello_mod.c) and explain
 #include <linux/kernel.h>  /* Kernel core functions */
 #include <linux/printk.h>  /* Kernel message logging */
 ```  
-> Kernel message logging is an essential element for debbuging enhanced **logging levels** macros.   
+> Kernel message logging is an essential element for debbuging enhanced by **logging levels** macros.   
 
-These are the **headers** that will provide us with the macros, functions to us in our module development.  
+These are the **headers** that will provide us with the macros, functions for our module development.  
 
 ```  
 MODULE_LICENSE("LICENSE");
@@ -85,7 +85,7 @@ MODULE_AUTHOR("Author name <email>");
 MODULE_DESCRIPTION("Module description");
 ```  
 
-These macros provided by **<permissionslinux/module.h>** are used for general information about the module. Note that mentionning the **License** is required.  
+These macros provided by **<linux/module.h>** are used for general information about the module. Note that mentionning the **License** is required.  
 
 ```
 static unsigned int argc_k = 0;
