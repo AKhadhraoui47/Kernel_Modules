@@ -42,9 +42,33 @@ After installing the **Linux Headers** package you should find them under **/usr
 
 + **<linux/fs.h>** File system structures and functions.   
 + **<linux/printk.h>** Kernel messages logging.
-+ **<linux/module.h>** Module-related macros and functions.   
++ **<linux/module.h>** Module-related macros and functions.     
+
+> The **/usr/src/linux-headers-xxxxx/include** headers are used via the **/lib/modules/$(uname -r)/build** symbolic links. They are owned by the kernel headers packages and updated in lockstep with the kernel.
 
 ### Module Source Code Structure
+
+The core of any kernel module is its source code written in C. This source file must include specific headers, particularly <linux/module.h>, which provides the necessary interfaces for module development.  
+
++ **Initialization function**  
+
+The first function to be executed when a module is inserted is the initialization function which can be responsible for allocating resources and registering interfaces. After developing your function, you should declare it as a **Module Init Function** through the macro-like-function **module_init(x)**.  
+
++ **Exit function**  
+
+When removing your module an exit function is executed to free memory previously allocated and other resources. After developing your function, you should declare it as a **Module Exit Function** through the macro-like-function **module_exit(x)**.  
+
++ **Licensing**  
+
+For determining later usage scope of the module by any other user a license should be attributed to the module. THis can be achieved through the **MODULE_LICANSE** macro.  
+
+To get a deeper understanding of these concepts and tools let's dive into our (Hello World module)[Hello_World/Hello_mod.c] and clzrify its composition.  
+
+### Hello World :wave:  
+
+
+
+
 
 
  
