@@ -69,16 +69,23 @@ To get a deeper understanding of these concepts and tools let's dive into our [H
 Let's breakthrough our [Hello World module](Hello_World/Hello_mod.c) and explain its elements one by one.  
 
 ```
-#include <linux/init.h>  
-#include <linux/module.h>   
-#include <linux/moduleparam.h>  
-#include <linux/kernel.h>  
-#include <linux/printk.h>  
+#include <linux/init.h>  /* Initializati on macros */
+#include <linux/module.h>   /* Module development functions and macros */
+#include <linux/moduleparam.h>  /* Module parameterizing from Cmd */
+#include <linux/kernel.h>  /* Kernel core functions */
+#include <linux/printk.h>  /* Kernel message logging */
+```  
+> Kernel message logging is an essential element for debbuging enhanced **logging levels** macros.   
+
+These are the **headers** that will provide us with the macros, functions to us in our module development.  
+
+```  
+MODULE_LICENSE("LICENSE");
+MODULE_AUTHOR("Author name <email>");
+MODULE_DESCRIPTION("Module description");
 ```  
 
-These are the **headers** that we will  
-
-
+These macros provided by **<linux/module.h>** are used for general information about the module. Note that mentionning the **License** is required.  
 
 
 
