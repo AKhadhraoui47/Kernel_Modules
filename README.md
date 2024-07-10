@@ -221,6 +221,10 @@ ak47@ak47:~$ sudo rmmod Hello_mod
 ak47@ak47:~$ dmesg | tail -1
 [18821.686439] Goodbye, world
 ```  
+
+And now that we got familiar with modules development let's get to the real deal 
+
+### :rocket:
  
 
 
