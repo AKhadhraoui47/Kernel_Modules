@@ -48,7 +48,7 @@ After installing the **Linux Headers** package you should find them under **/usr
 
 ### Module Source Code Structure
 
-The core of any kernel module is its source code written in C. This source file must include specific headers, particularly <linux/module.h>, which provides the necessary interfaces for module development.  
+The core of any kernel module is its source code written in C. This source file must include specific headers, particularly **<linux/module.h>**, which provides the necessary interfaces for module development.  
 
 + **Initialization function**  
 
