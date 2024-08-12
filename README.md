@@ -222,9 +222,11 @@ ak47@ak47:~$ dmesg | tail -1
 [18821.686439] Goodbye, world
 ```  
 
-And now that we got familiar with modules development let's get to the real deal 
+And now that we got familiar with modules development let's get to the real deal, where we will be developing a kernel module for [**Grove Wifi V2 UART**](https://wiki.seeedstudio.com/Grove-UART_Wifi_V2/), so before moving we will neeed to test our module and understand how it works with [**AT Commands**](http://bbs.espressif.com/download/file.php?id=450), therefore we need to activate a **UART** instance for our microprocessor.  
 
-### :rocket:
+## Modifying the Device Tree :deciduous_tree:  
+
+
 
 
 
