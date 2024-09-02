@@ -1,0 +1,30 @@
+## Modifying the Device Tree :deciduous_tree:  
+
+> **Device Tree** is a data structure utilized in Linux to describe the hardware components of a system, used to convey hardware information to OS, enabling it to properly configure and manage the hardware. 
+
+To communicate over UART with the module we will be activating **UART8** and if we take a look at an image that we generated with **[Distribution package](https://wiki.st.com/stm32mpu/wiki/STM32MPU_Distribution_Package#Building_the_OpenSTLinux_distribution)** provided by ***STMicroelectronics*** in the build directory we will find under ***build-dir/tmp/work-shared/machine-name/kernel-source/arch/arm/boot/dts/*** a file **machine.dts** as in my case ***stm32mp135f-dk.dts***  
+
+```
+&uart8 {
+	pinctrl-names = "default", "sleep", "idle";
+	pinctrl-0 = <&uart8_pins_a>;
+	pinctrl-1 = <&uart8_sleep_pins_a>;
+	pinctrl-2 = <&uart8_idle_pins_a>;
+	/delete-property/dmas;
+	/delete-property/dma-names;
+	status = "disabled";
+};
+```  
+As we can see, initially **UART8** is disabled and we need to change its status to **okay**. To achieve this modification, we should avoid modifying thhe original file and instead we will apply a **patch**. 
+
+> Patches are files that contain changes to be applied to source code or other text files.  
+
+<sub>I usually have a **tmp** folder that i use to make any temporary actions so we will start by copying our **Device Tree** in our **tmp/** folder then we will make another copy that we will name stm32mp135f-dk.dts.orig</sub>
+
+We will modify the stm32mp135f-dk.dts and we will leave stm32mp135f-dk.dts.orig as it is a reference and we will change the **status** 
+
+```console
+ak47@ak47:~$ git diff --no-index stm32mp135f-dk.dts stm32mp135f-dk.dts.orig > 0001-Patch.patch
+ak47@ak47:~$ cp 0001-Patch.patch dir/to/layers/meta-st/meta-custom/recipes-kernel/linux/stm32mp
+```
+What we did here is that after generating our patch we copied it to a directory in our **[custom layer]()** where we created a recipe that will append the default kernel recipe.

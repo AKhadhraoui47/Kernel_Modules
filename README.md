@@ -222,38 +222,17 @@ ak47@ak47:~$ dmesg | tail -1
 [18821.686439] Goodbye, world
 ```  
 
-And now that we got familiar with modules development let's get to the real deal, where we will be developing a kernel module for [**Grove Wifi V2 UART**](https://wiki.seeedstudio.com/Grove-UART_Wifi_V2/), so before moving we will neeed to test our module and understand how it works with [**AT Commands**](http://bbs.espressif.com/download/file.php?id=450), therefore we need to activate a **UART** instance for our microprocessor.  
+And now that we got familiar with modules development let's get to the real deal, where we will be developing a kernel module for [**Grove Wifi V2 UART**](https://wiki.seeedstudio.com/Grove-UART_Wifi_V2/), so before moving we will need to test our module and understand how it works with [**AT Commands**](http://bbs.espressif.com/download/file.php?id=450).  
 
-## Modifying the Device Tree :deciduous_tree:  
+## Grove Wifi v2 Module :cloud:  
 
-> **Device Tree** is a data structure utilized in Linux to describe the hardware components of a system, used to convey hardware information to OS, enabling it to properly configure and manage the hardware. 
+The Grove UART WiFi V2 is a serial transceiver module featuring the ESP8285 IoT SoC. It allows microcontrollers like Arduino to interact with WiFi networks using simple [**AT Commands**](http://bbs.espressif.com/download/file.php?id=450). So let's go through some basic commands which will be very useful in our module:
 
-To communicate over UART with the module we will be activating **UART8** and if we take a look at an image that we generated with **[Distribution package](https://wiki.st.com/stm32mpu/wiki/STM32MPU_Distribution_Package#Building_the_OpenSTLinux_distribution)** provided by ***STMicroelectronics*** in the build directory we will find under ***build-dir/tmp/work-shared/machine-name/kernel-source/arch/arm/boot/dts/*** a file **machine.dts** as in my case ***stm32mp135f-dk.dts***  
-
-```
-&uart8 {
-	pinctrl-names = "default", "sleep", "idle";
-	pinctrl-0 = <&uart8_pins_a>;
-	pinctrl-1 = <&uart8_sleep_pins_a>;
-	pinctrl-2 = <&uart8_idle_pins_a>;
-	/delete-property/dmas;
-	/delete-property/dma-names;
-	status = "disabled";
-};
-```  
-As we can see, initially **UART8** is disabled and we need to change its status to **okay**. To achieve this modification, we should avoid modifying thhe original file and instead we will apply a **patch**. 
-
-> Patches are files that contain changes to be applied to source code or other text files.  
-
-<sub>I usually have a **tmp** folder that i use to make any temporary actions so we will start by copying our **Device Tree** in our **tmp/** folder then we will make another copy that we will name stm32mp135f-dk.dts.orig</sub>
-
-We will modify the stm32mp135f-dk.dts and we will leave stm32mp135f-dk.dts.orig as it is a reference and we will change the **status** 
-
-```console
-ak47@ak47:~$ git diff --no-index stm32mp135f-dk.dts stm32mp135f-dk.dts.orig > 0001-Patch.patch
-ak47@ak47:~$ cp 0001-Patch.patch dir/to/layers/meta-st/meta-custom/recipes-kernel/linux/stm32mp
-```
-What we did here is that after generating our patch we copied it to a directory in our **[custom layer]()** where we created a recipe that will append the default kernel recipe.
++ **AT**: Test the setup function of our module ( Response **OK** )
++ **AT+ATE0**: Disable commands echo from module to shorten received response ( Response **OK** )
++ **AT+SLEEP**: Manage the module state and power consumption ( Response **OK** )
++ **AT+UART_CUR**: Configure UART communication properties; baudrate, databits,stopbits, parity, flow control ( Response **OK** )  
++ **AT+CWMODE**: Set the module mode; Station, SoftAP, Station+SoftAP
 
 
 ## References :label:

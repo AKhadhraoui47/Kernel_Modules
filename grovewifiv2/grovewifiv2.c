@@ -1,11 +1,3 @@
-/*
-- Serdev is static with one value
-- cmd_cli is not used
-- Use of Buf in receive
-- Response OK: multi msgs responses
-- Receive Buff
-- Take response to userspace
-*/
 
 #include <linux/init.h>
 #include <linux/module.h>
@@ -14,7 +6,6 @@
 #include <linux/completion.h>
 #include <linux/mutex.h>
 #include <linux/sysfs.h>
-#include <linux/container_of.h>
 #include <linux/kobject.h>
 
 #define GROVE_WIFI_DRIVER_NAME "grove_wifi"
