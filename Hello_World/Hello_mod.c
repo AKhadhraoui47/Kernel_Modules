@@ -5,7 +5,7 @@
 #include <linux/kernel.h>
 #include <linux/printk.h> 
 
-MODULE_LICENSE("GPL");
+MODULE_LICENSE("GPL v3");
 MODULE_AUTHOR("AKhadhraoui47");
 MODULE_DESCRIPTION("Hello World Module");
 
