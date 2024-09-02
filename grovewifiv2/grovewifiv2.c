@@ -52,10 +52,10 @@ struct grove_wifi_state {
     char response[GROVEWIFI_RSP_RAW_MAX_LENGTH];
     size_t response_len;
     enum grove_wifi_comm_state comm;
-    struct kobject *kern_obj; //TODO
+    struct kobject *kern_obj; //TO REMOVE
 };
 
-struct grove_wifi_state *state_globe;
+struct grove_wifi_state *state_global;
 
 static u8 grove_wifi_cmd_tbl[][GROVE_CMD_MAX_LENGTH] = {
 	[CMD_TEST] = "\r\nAT\r\n",
@@ -102,11 +102,11 @@ static struct kobj_attribute id =
 static ssize_t grove_wifi_cli_store(struct kobject *kobj, struct kobj_attribute *attr, const char *buf, size_t count)
 {
     int ret;
-    struct serdev_device *serdev = state_globe->serdev;
+    struct serdev_device *serdev = state_global->serdev;
 
     sprintf(grove_wifi_cmd_tbl[CMD_CLI], "\r\n%s\r\n", buf);
 
-    ret = grove_wifi_do_cmd(state_globe, CMD_CLI);
+    ret = grove_wifi_do_cmd(state_global, CMD_CLI);
 	
    	if (ret < 0) {
         strcpy(grove_wifi_cmd_tbl[CMD_CLI], "\r\n\r\n");
@@ -137,7 +137,7 @@ static ssize_t grove_wifi_response_store(struct kobject *kobj, struct kobj_attri
 
 static ssize_t grove_wifi_response_show(struct kobject *kobj, struct kobj_attribute *attr, char *buf){
     int ret;
-    enum grove_wifi_comm_state comm_state = state_globe->comm;
+    enum grove_wifi_comm_state comm_state = state_global->comm;
     char response_cli[GROVEWIFI_RSP_MAX_LENGTH];
 
     switch (comm_state)
@@ -205,7 +205,6 @@ static int grove_wifi_sysfs_setup(struct serdev_device *serdev){
 static int grove_wifi_receive_buf(struct serdev_device *serdev, const u8 *buf, size_t size) {
     struct grove_wifi_state *state = serdev_device_get_drvdata(serdev);
     size_t num;
-    static int error_cnt = 0;
 
     mutex_lock(&state->lock);
 
@@ -269,7 +268,7 @@ static int grove_wifi_probe(struct serdev_device *serdev) {
     int ret;
 
     state = devm_kzalloc(&serdev->dev, sizeof(*state), GFP_KERNEL);
-    state_globe = state;
+    state_global = state;
     
     if (!state)
         return -ENOMEM;

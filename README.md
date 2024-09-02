@@ -290,7 +290,48 @@ This kernel module is designed to interface with the Grove WiFi module from Seee
 };
  ```
 
-  Custom-defined data structure that holds the state and relevant information needed to manage the Grove WiFi module within the kernel module. This structure encapsulates the state of the device, synchronization mechanisms, communication buffers.
+It's recommended to have a driver specific structure that holds specific data. Our custom-defined data structure that holds the state and relevant information needed to manage the Grove WiFi module within the kernel module encapsulating the state of the device, synchronization mechanisms, communication buffers.  
+
+#### 3. Commands Table  
+
+```
+static u8 grove_wifi_cmd_tbl[][GROVE_CMD_MAX_LENGTH] = {
+	[CMD_TEST] = "\r\nAT\r\n",
+	[CMD_NO_ECHO] = "\r\nATE0\r\n",
+	[CMD_DISABLE_SLEEP] = "\r\nAT+SLEEP=0\r\n",
+	[CMD_SET_UART] = "\r\nAT+UART_CUR=115200,8,1,0,0\r\n",
+	[CMD_STATION_MODE] = "\r\nAT+CWMODE=1\r\n",
+    [CMD_CLI] = "\r\n\r\n",
+};
+```  
+
+This table holds the configuration commands executed during the initialization, the last string **grove_wifi_cmd_tbl[CMD_CLI]** will hold the custom command for further setup. 
+
+#### 4. Serial Device Operations  
+
+```
+static const struct serdev_device_ops grove_wifi_serdev_ops = {
+    .receive_buf = grove_wifi_receive_buf,
+    .write_wakeup = serdev_device_write_wakeup,
+};
+```
+
+The **serdev_device_ops** structure holds two key callbacks; **receive_buf**  invoked whenever the kernel receives data from the Grove WiFi module through the serial interface, **write_wakeup** called when the device is ready to transmit more data after a write operation.  
+
+#### 5. Open Firmware Device ID  
+
+```
+static const struct of_device_id grove_wifi_of_match[] = {
+    { .compatible = "seeedstudio,grovewifiv1" },
+	{ .compatible = "seeedstudio,grovewifiv2" },
+	{ }
+};
+MODULE_DEVICE_TABLE(of, grove_wifi_of_match);
+```  
+
+The **of_device_id** structure is used in Linux kernel modules to define a table of device tree compatible strings that the driver can support.  **MODULE_DEVICE_TABLE** macro allows the kernel to create the necessary data structures so that when a device is detected with a compatible string, the corresponding driver is automatically loaded and bound to the device. <sub> Reminder we are working on an in-tree device </sub>  
+
+
 
 
 
