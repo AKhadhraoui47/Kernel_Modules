@@ -241,20 +241,58 @@ So now after having two key elements ; The basics of Kernel Modules development 
 The **serdev.h** header provides a set of functions and macros to facilitate the management of serial devices within the Linux kernel. Here is an overview of its main functionnalities:  
 
 + **serdev_device_set_drvdata()**: Associates custom driver data with a serial device allowing driver to store and retrieve private data associated with the serial device.  
-
 + **serdev_device_set_client_ops()**: Assigns a set of operations (callbacks) to a serial device. 
-
 + **serdev_device_set_baudrate()**: sets the baud rate (the speed of communication) for the serial device. 
-
 + **serdev_device_set_flow_control()**: Enables or Disables flow control on the serial device.
-
 + **serdev_device_set_parity()**: Sets the parity mode for the serial device.
-
 + **serdev_device_write()**: Sends data to the serial device. It writes a specified number of bytes from a buffer to the device, with an optional timeout.
-
 + **struct serdev_device_driver**:  Represents a driver for a serial device within the serdev subsystem. It includes information about the driver, such as its name and probe and remove functions.
++ **struct serdev_device_ops**: defines callbacks that a serial device driver can implement. It includes function pointers for handling various events, such as data reception (**receive_buf**).  
 
-+ **struct serdev_device_ops**: defines callbacks that a serial device driver can implement. It includes function pointers for handling various events, such as data reception (**receive_buf**).
+Now let's go through our module [grovewifiv2](grovewifiv2/grovewifiv2.c) and understand its structure and functionnalities.  
+
+> Keep in mind that this module was built for an **in-tree** module as a sub-node with UARTn that's why no **serdev_controller** was invoked. For more portability and scalabity for this module, improvements will be made.
+
+### Grovewifiv2.c  
+
+This kernel module is designed to interface with the Grove WiFi module from Seeed Studio, providing a structured way to manage and control the module using the Linux kernel's serdev subsystem.  
+
+ #### 1. Linux Headers  
+
+ ```
+#include <linux/init.h> 
+#include <linux/module.h>
+#include <linux/serdev.h> 
+#include <linux/of_device.h> 
+#include <linux/completion.h>
+#include <linux/mutex.h>
+#include <linux/sysfs.h>
+#include <linux/kobject.h>
+ ```  
+
+ + **<linux/serdev.h>**: This header provides the necessary functions and structures to interact with the serdev subsystem.  
+ + **<linux/of_device.h>**: Used for device tree matching, which allows the module to be bound to the Grove WiFi module based on its compatible string
+ + **<linux/completion.h>**: Provides synchronization primitives to manage the completion of operations, such as waiting for a response from the WiFi module.
+ + **<linux/mutex.h>**: Used to protect shared data structures from concurrent access, ensuring that communication with the WiFi module is thread-safe.
+ + **<linux/sysfs.h> ; <linux/kobject.h>**: These headers are used to create sysfs entries, allowing user-space interaction with the kernel module.  
+
+ #### 2. Module Specific Structure  
+
+ ```
+ struct grove_wifi_state {
+    struct serdev_device *serdev;
+    struct completion cmd_done;
+    struct mutex lock;
+    char response[GROVEWIFI_RSP_RAW_MAX_LENGTH];
+    size_t response_len;
+    enum grove_wifi_comm_state comm;
+    struct kobject *kern_obj; //TODO
+};
+ ```
+
+  Custom-defined data structure that holds the state and relevant information needed to manage the Grove WiFi module within the kernel module. This structure encapsulates the state of the device, synchronization mechanisms, communication buffers.
+
+
 
 
 
@@ -268,6 +306,7 @@ The **serdev.h** header provides a set of functions and macros to facilitate the
 
 [DigiKey](https://youtu.be/2-PwskQrZac?si=jiGgczR_U2r38A5k) <sub> Shawn Hymel </sub>
 
+[Serial Device Bus](http://events17.linuxfoundation.org/sites/events/files/slides/serdev-elce-2017-2.pdf) <sub> Johan Hovold </sub>
 
 
 
