@@ -232,7 +232,32 @@ The Grove UART WiFi V2 is a serial transceiver module featuring the ESP8285 IoT 
 + **AT+ATE0**: Disable commands echo from module to shorten received response ( Response **OK** )
 + **AT+SLEEP**: Manage the module state and power consumption ( Response **OK** )
 + **AT+UART_CUR**: Configure UART communication properties; baudrate, databits,stopbits, parity, flow control ( Response **OK** )  
-+ **AT+CWMODE**: Set the module mode; Station, SoftAP, Station+SoftAP
++ **AT+CWMODE**: Set the module mode; Station, SoftAP, Station+SoftAP ( Response **OK** )  
+
+So now after having two key elements ; The basics of Kernel Modules development and the basic commands to configure our module let's take a look at another important element which will allow us establish serial communication the [**<linux/serdev.h>**](https://github.com/torvalds/linux/blob/master/include/linux/serdev.h) kernel header.  
+
+### Serdev.h :electric_plug:  
+
+The **serdev.h** header provides a set of functions and macros to facilitate the management of serial devices within the Linux kernel. Here is an overview of its main functionnalities:  
+
++ **serdev_device_set_drvdata()**: Associates custom driver data with a serial device allowing driver to store and retrieve private data associated with the serial device.  
+
++ **serdev_device_set_client_ops()**: Assigns a set of operations (callbacks) to a serial device. 
+
++ **serdev_device_set_baudrate()**: sets the baud rate (the speed of communication) for the serial device. 
+
++ **serdev_device_set_flow_control()**: Enables or Disables flow control on the serial device.
+
++ **serdev_device_set_parity()**: Sets the parity mode for the serial device.
+
++ **serdev_device_write()**: Sends data to the serial device. It writes a specified number of bytes from a buffer to the device, with an optional timeout.
+
++ **struct serdev_device_driver**:  Represents a driver for a serial device within the serdev subsystem. It includes information about the driver, such as its name and probe and remove functions.
+
++ **struct serdev_device_ops**: defines callbacks that a serial device driver can implement. It includes function pointers for handling various events, such as data reception (**receive_buf**).
+
+
+
 
 
 ## References :label:
