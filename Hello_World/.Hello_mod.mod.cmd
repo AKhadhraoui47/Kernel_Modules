@@ -1,1 +1,0 @@
-cmd_/home/tsarbomba/Documents/STM32MPU_ws/STM32MP1-Ecosystem-v5.0.0/Kernel_Modules/Hello_World/Hello_mod.mod := { echo  /home/tsarbomba/Documents/STM32MPU_ws/STM32MP1-Ecosystem-v5.0.0/Kernel_Modules/Hello_World/Hello_mod.o;  echo; } > /home/tsarbomba/Documents/STM32MPU_ws/STM32MP1-Ecosystem-v5.0.0/Kernel_Modules/Hello_World/Hello_mod.mod
