@@ -1,9 +1,0 @@
-{
-    "files.associations": {
-        "module.h": "c",
-        "kernel.h": "c",
-        "sysinfo.h": "c",
-        "const.h": "c"
-    },
-    "ros.distro": "foxy"
-}
