@@ -329,7 +329,30 @@ static const struct of_device_id grove_wifi_of_match[] = {
 MODULE_DEVICE_TABLE(of, grove_wifi_of_match);
 ```  
 
-The **of_device_id** structure is used in Linux kernel modules to define a table of device tree compatible strings that the driver can support.  **MODULE_DEVICE_TABLE** macro allows the kernel to create the necessary data structures so that when a device is detected with a compatible string, the corresponding driver is automatically loaded and bound to the device. <sub> Reminder we are working on an in-tree device </sub>  
+The **of_device_id** structure is used in Linux kernel modules to define a table of device tree compatible strings that the driver can support.  **MODULE_DEVICE_TABLE** macro allows the kernel to create the necessary data structures so that when a device is detected with a compatible string, the corresponding driver is automatically loaded and bound to the device. <sub> Reminder we are working on an in-tree device </sub>    
+
+#### 6. Driver properties
+
+```
+static struct serdev_device_driver grove_wifi_driver = {
+    .driver = {
+        .name = GROVE_WIFI_DRIVER_NAME,
+        .of_match_table = of_match_ptr(grove_wifi_of_match),
+    },
+    .probe = grove_wifi_probe,
+};
+module_serdev_device_driver(grove_wifi_driver);
+```  
+
+The **driver** attribute is a general structure used by all types of device drivers in the kernel. **probe** attribute is a function pointer that points to the driver's probe function called by the kernel when a device that matches the driver's compatible string is found. **module_serdev_device_driver** This macro is used to register the serdev_device_driver with the kernel.  
+
+> **module_serdev_device_driver** handles the module's initialization and cleanup functions (__init and __exit). So if you want to redefine them yourself expect errors will occur during compilation.  
+
+#### 7. Module Structure
+
+This diagram explains how this module works and the functionnalities provided:  
+
+
 
 
 
