@@ -354,7 +354,7 @@ The **driver** attribute is a general structure used by all types of device driv
 
 The functionnalities provided and the interactions between is explained as follows:   
 
-###### a. Initialization
+###### a. Initialization  
 
     module_serdev_device_driver(grove_wifi_driver)
 Role: Registers the driver with the kernel.
@@ -368,7 +368,7 @@ Interaction: Calls the grove_wifi_probe() function when a matching device is fou
 + serdev_device_set_baudrate(serdev, 115200), serdev_device_set_flow_control(serdev, false), and serdev_device_set_parity(serdev, SERDEV_PARITY_NONE): Configure the serial communication settings.  
 + grove_wifi_sysfs_setup(serdev): Creates sysfs entries for CLI and response handling.  
 
-###### b. Sysfs Interface
+###### b. Sysfs Interface  
 
     grove_wifi_sysfs_setup(struct serdev_device *serdev)
 **Role**: Sets up sysfs entries for user interaction.  
@@ -382,7 +382,7 @@ Interaction: Calls the grove_wifi_probe() function when a matching device is fou
 + grove_wifi_cli_store(): Receives commands from the user and executes them via grove_wifi_do_cmd().  
 + grove_wifi_response_show(): Shows the status of the last command.  
 
-###### c. Command Handling
+###### c. Command Handling  
 
     grove_wifi_do_cmd(struct grove_wifi_state *state, enum grove_wifi_cmd cmd)
 **Role**: Sends a command to the Grove WiFi module and waits for a response.  
@@ -394,7 +394,7 @@ Interaction: Calls the grove_wifi_probe() function when a matching device is fou
     grove_wifi_clear_frame(struct grove_wifi_state *state)
 **Role**: Clears the response buffer and resets the communication state.
 
-###### d. Communication
+###### d. Communication  
 
     static const struct serdev_device_ops grove_wifi_serdev_ops
     grove_wifi_receive_buf(struct serdev_device *serdev, const u8 *buf, size_t size)  
@@ -405,7 +405,7 @@ Interaction: Calls the grove_wifi_probe() function when a matching device is fou
 + serdev_device_write_wakeup(struct serdev_device *serdev)
 **Role**: (Typically not directly used) Wakes up the serial device after a write operation.
 
-###### e. flow and Interaction
+###### e. flow and Interaction  
 
 ***Driver Loading***:
 The kernel loads the module using module_serdev_device_driver, which registers the driver.

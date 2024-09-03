@@ -21,6 +21,7 @@
 
 static char cmd_cli[GROVE_CMD_MAX_LENGTH];
 static unsigned int cli_id;
+static kobject *kern_obj;
 
 enum grove_wifi_cli {
     CLI_CHK_STATE,
@@ -52,7 +53,6 @@ struct grove_wifi_state {
     char response[GROVEWIFI_RSP_RAW_MAX_LENGTH];
     size_t response_len;
     enum grove_wifi_comm_state comm;
-    struct kobject *kern_obj; //TO REMOVE
 };
 
 struct grove_wifi_state *state_global;
@@ -169,22 +169,22 @@ static struct kobj_attribute response =
 static int grove_wifi_sysfs_setup(struct serdev_device *serdev){
     struct grove_wifi_state *state = serdev_device_get_drvdata(serdev);
     int error;
-    state->kern_obj = kobject_create_and_add("grovewifiv2", kernel_kobj); 
+    kern_obj = kobject_create_and_add("grovewifiv2", kernel_kobj); 
     
-    if ( !state -> kern_obj )
+    if ( !kern_obj )
         return -ENOMEM;
     
-    error = sysfs_create_file(state->kern_obj, &cli.attr);
+    error = sysfs_create_file(kern_obj, &cli.attr);
     if (error) {
         dev_err(&serdev->dev, "CLI file not created under /sys/kernel/grovewifiv2\n");
         return -ENOMEM;
     }
-    error = sysfs_create_file(state->kern_obj, &response.attr);
+    error = sysfs_create_file(kern_obj, &response.attr);
     if (error) {
         dev_err(&serdev->dev, "RESPONSE file not created under /sys/kernel/grovewifiv2\n");
         return -ENOMEM;
     }
-    error = sysfs_create_file(state->kern_obj, &id.attr);
+    error = sysfs_create_file(kern_obj, &id.attr);
     if (error) {
         dev_err(&serdev->dev, "ID file not created under /sys/kernel/grovewifiv2\n");
         return -ENOMEM;
