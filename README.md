@@ -288,7 +288,6 @@ This kernel module is designed to interface with the Grove WiFi module from Seee
     char response[GROVEWIFI_RSP_RAW_MAX_LENGTH];
     size_t response_len;
     enum grove_wifi_comm_state comm;
-    struct kobject *kern_obj; //TODO
 };
  ```
 
