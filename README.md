@@ -257,6 +257,8 @@ Now let's go through our module [grovewifiv2](grovewifiv2/grovewifiv2.c) and und
 
 This kernel module is designed to interface with the Grove WiFi module from Seeed Studio, providing a structured way to manage and control the module using the Linux kernel's serdev subsystem.  
 
+> Note that any variable or reference to **Command Line Interface** variable or function will be exploited later for a **CLI** to interact with this module in a user-friendly way from **user-space**. 
+
  #### 1. Linux Headers  
 
  ```
@@ -350,7 +352,77 @@ The **driver** attribute is a general structure used by all types of device driv
 
 #### 7. Module Structure
 
-This diagram explains how this module works and the functionnalities provided:  
+The functionnalities provided and the interactions between is explained as follows:   
+
+###### a. Initialization
+
+    module_serdev_device_driver(grove_wifi_driver)
+Role: Registers the driver with the kernel.
+Interaction: Calls the grove_wifi_probe() function when a matching device is found.
+
+    grove_wifi_probe(struct serdev_device *serdev)
+**Role**: Initializes the device, sets up serial communication, configures the device, and sets up sysfs entries.
+**Interaction**: Calls several other functions:  
++ serdev_device_set_drvdata(serdev, state): Stores the device-specific data.  
++ serdev_device_set_client_ops(serdev, &grove_wifi_serdev_ops): Registers the serdev operations (grove_wifi_serdev_ops).  
++ serdev_device_set_baudrate(serdev, 115200), serdev_device_set_flow_control(serdev, false), and serdev_device_set_parity(serdev, SERDEV_PARITY_NONE): Configure the serial communication settings.  
++ grove_wifi_sysfs_setup(serdev): Creates sysfs entries for CLI and response handling.  
+
+###### b. Sysfs Interface
+
+    grove_wifi_sysfs_setup(struct serdev_device *serdev)
+**Role**: Sets up sysfs entries for user interaction.  
+**Interaction**: Calls sysfs_create_file() to create the files:  
++ id: Handles CLI ID input.  
++ cli: Handles command input.  
++ response: Displays the response status.  
+
+**Sysfs Attribute Functions**:  
++ grove_wifi_fct_id_store(): Stores CLI ID.  
++ grove_wifi_cli_store(): Receives commands from the user and executes them via grove_wifi_do_cmd().  
++ grove_wifi_response_show(): Shows the status of the last command.  
+
+###### c. Command Handling
+
+    grove_wifi_do_cmd(struct grove_wifi_state *state, enum grove_wifi_cmd cmd)
+**Role**: Sends a command to the Grove WiFi module and waits for a response.  
+**Interaction**:  **Calls**:  
+**grove_wifi_clear_frame(state)**: Clears the response buffer.  
+**serdev_device_write(serdev, grove_wifi_cmd_tbl[cmd], ..., STD_TIMEOUT)**: Sends the command over serial.  
+**wait_for_completion_timeout(&state->cmd_done, EXT_TIMEOUT)**: Waits for the response.
+
+    grove_wifi_clear_frame(struct grove_wifi_state *state)
+**Role**: Clears the response buffer and resets the communication state.
+
+###### d. Communication
+
+    static const struct serdev_device_ops grove_wifi_serdev_ops
+    grove_wifi_receive_buf(struct serdev_device *serdev, const u8 *buf, size_t size)  
+  
+**Role**: Receives data from the Grove WiFi module and processes the response.  
+**Interaction**: Updates the response buffer in state and completes the command if an "OK" response is received.
+
++ serdev_device_write_wakeup(struct serdev_device *serdev)
+**Role**: (Typically not directly used) Wakes up the serial device after a write operation.
+
+###### e. flow and Interaction
+
+***Driver Loading***:
+The kernel loads the module using module_serdev_device_driver, which registers the driver.
+Upon detecting the Grove WiFi module, the kernel calls grove_wifi_probe.
+
+***Device Initialization***:
+grove_wifi_probe configures the serial communication and initializes the sysfs interface.
+ 
+***Sysfs Interaction***:
+Users interact with the device via sysfs. For example, writing to cli triggers a command to be sent using grove_wifi_do_cmd.
+
+***Command Execution***:
+grove_wifi_do_cmd sends the command and waits for a response.
+The response is processed by grove_wifi_receive_buf, which updates the state and signals command completion.
+
+***Status Check***:
+Users can check the command status by reading from response.
 
 
 
