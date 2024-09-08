@@ -439,8 +439,6 @@ Users can check the command status by reading from response.
   
 [LINUX DEVICE DRIVERS 3rd Edition](https://www.google.com/url?sa=t&source=web&rct=j&opi=89978449&url=https://lwn.net/Kernel/LDD3/&ved=2ahUKEwjJ4vzx3JyHAxWjT6QEHZg9BcQQFnoECBQQAQ&usg=AOvVaw01bM6Zgwp5iRGPE8AVMxj-) <sub>Jonathan Corbet, Alessandro Rubini, and Greg Kroah-Hartman </sub>
 
-[DigiKey](https://youtu.be/2-PwskQrZac?si=jiGgczR_U2r38A5k) <sub> Shawn Hymel </sub>
-
 [Serial Device Bus](http://events17.linuxfoundation.org/sites/events/files/slides/serdev-elce-2017-2.pdf) <sub> Johan Hovold </sub>
 
 
