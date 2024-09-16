@@ -319,7 +319,7 @@ static struct serdev_device_driver grove_wifi_driver = {
 };
 module_serdev_device_driver(grove_wifi_driver);
 
-MODULE_LICENSE("GPL v3");
+MODULE_LICENSE("GPL v2");
 MODULE_AUTHOR("AKhadhraoui47");
 MODULE_DESCRIPTION("Grove Wifi Kernel Module");
 
