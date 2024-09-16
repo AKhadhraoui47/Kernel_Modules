@@ -71,7 +71,7 @@ static u8 grove_wifi_cmd_tbl[][GROVE_CMD_MAX_LENGTH] = {
 /******************************************************************************************************************/
 
 static int grove_wifi_sysfs_setup(struct serdev_device *serdev);
-void grove_wifi_clear_frame (struct grove_wifi_state *state);
+static void grove_wifi_clear_frame (struct grove_wifi_state *state);
 static int grove_wifi_do_cmd(struct grove_wifi_state *state, enum grove_wifi_cmd cmd);
 
 /******************************************************************************************************************/
@@ -227,7 +227,7 @@ static const struct serdev_device_ops grove_wifi_serdev_ops = {
     .write_wakeup = serdev_device_write_wakeup,
 };
 
-void grove_wifi_clear_frame (struct grove_wifi_state *state)
+static void grove_wifi_clear_frame (struct grove_wifi_state *state)
 {
 	mutex_lock(&state->lock);
 	strcpy(state->response,"");
